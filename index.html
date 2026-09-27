@@ -56,7 +56,7 @@
     }
 
     body {
-      background-color: var(--bg);
+      background: transparent;
       color: var(--ink);
       font-family: 'Lora', serif;
       font-weight: 400;
@@ -71,7 +71,7 @@
       background-image: var(--bgimg);
       background-size: cover;
       background-position: center 30%;
-      filter: blur(5px) brightness(.96);
+      filter: blur(5px) brightness(.92);
       transform: scale(1.05);
     }
 
@@ -79,7 +79,7 @@
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 50%, transparent) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 40%, color-mix(in srgb, var(--bg) 88%, transparent) 75%, var(--bg) 100%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 60%, transparent) 45%, color-mix(in srgb, var(--bg) 75%, transparent) 100%);
     }
 
     .corner-orn {
