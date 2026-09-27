@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="only light">
   <title>Thiệp mời cưới — Thanh Minh & Thanh Ngân</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +13,7 @@
     rel="stylesheet">
   <style>
     :root {
+      color-scheme: only light;
       --bg: #FBF6EE;
       --bg-deep: #F3E9DA;
       --ink: #2B2620;
@@ -27,19 +29,7 @@
       padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --bg: #20201c;
-        --bg-deep: #171512;
-        --ink: #EDE6D8;
-        --ink-soft: #C7BCA6;
-        --rose: #E0625B;
-        --sage: #8FA173;
-        --gold: #D6B872;
-        --line: #4A4234;
-        --card: #26241f;
-      }
-    }
+    /* Dark mode intentionally disabled — wedding invitation always uses light theme */
 
     :root[data-theme="dark"] {
       --bg: #20201c;
