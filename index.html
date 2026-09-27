@@ -52,10 +52,11 @@
       scroll-behavior: smooth;
       scroll-padding-top: env(safe-area-inset-top, 0px);
       height: 100%;
+      background-color: var(--bg);
     }
 
     body {
-      background: transparent;
+      background-color: var(--bg);
       color: var(--ink);
       font-family: 'Lora', serif;
       font-weight: 400;
@@ -78,7 +79,7 @@
       position: fixed;
       inset: 0;
       z-index: -1;
-      background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 40%, transparent), color-mix(in srgb, var(--bg) 62%, transparent) 45%, color-mix(in srgb, var(--bg) 68%, transparent) 100%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 50%, transparent) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 40%, color-mix(in srgb, var(--bg) 88%, transparent) 75%, var(--bg) 100%);
     }
 
     .corner-orn {
@@ -1758,7 +1759,7 @@
     // scroll reveal
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-    }, { threshold: .15 });
+    }, { threshold: 0.05, rootMargin: '120px 0px 80px 0px' });
     document.querySelectorAll('.reveal, .photo').forEach(el => io.observe(el));
 
     // gallery lightbox
