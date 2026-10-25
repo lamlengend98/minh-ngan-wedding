@@ -70,7 +70,7 @@
       z-index: -2;
       background-image: var(--bgimg);
       background-size: cover;
-      background-position: center 30%;
+      background-position: center -150px;
       filter: blur(5px) brightness(.92);
       transform: scale(1.05);
     }
@@ -120,8 +120,15 @@
       height: 100%;
       background-image: var(--bgimg);
       background-size: cover;
-      background-position: center 30%;
+      background-position: center -150px;
       background-repeat: no-repeat;
+    }
+
+    @media (max-width: 768px) {
+      .bg-photo,
+      .curtain-photo {
+        background-position: center top;
+      }
     }
 
     .curtain::after {
@@ -1432,7 +1439,10 @@
   <div id="cover-text">
     <div class="eyebrow">Trân trọng kính mời</div>
     <h1 class="names">Thanh Minh<span class="amp">&amp;</span>Thanh Ngân</h1>
-    <div class="hero-date">Thứ Bảy · 17h 14.11.2026</div>
+    <div class="hero-date">
+      <div>Tiệc Thân Mật · 17h 14.11.2026</div>
+      <div style="margin-top:0.25rem;">Lễ Vu Quy · 9h 15.11.2026</div>
+    </div>
     <span class="cover-tap">Chạm để mở thiệp</span>
   </div>
 
@@ -1527,7 +1537,7 @@
   <section class="section reveal">
     <h2 class="center" style="font-size:1.9rem;">Thông tin lễ cưới</h2>
     <div class="calendar-card">
-      <div class="calendar-daynum"><b>14</b>Tháng 11<br>2026</div>
+      <div class="calendar-daynum"><b>14 - 15</b>Tháng 11<br>2026</div>
       <div class="calendar-grid">
         <table>
           <tr>
@@ -1566,7 +1576,9 @@
             <td><span class="day-cell"><svg viewBox="0 0 26 24">
                   <path d="M13 22 C3 14,1 4,8 2 C12 1,13 5,13 5 C13 5,14 1,18 2 C25 4,23 14,13 22 Z" />
                 </svg><span>14</span></span></td>
-            <td class="sun">15</td>
+            <td class="sun"><span class="day-cell"><svg viewBox="0 0 26 24">
+                  <path d="M13 22 C3 14,1 4,8 2 C12 1,13 5,13 5 C13 5,14 1,18 2 C25 4,23 14,13 22 Z" />
+                </svg><span>15</span></span></td>
           </tr>
           <tr>
             <td>16</td>
@@ -1618,6 +1630,7 @@
     </div>
     <div class="event-card">
       <div class="event-row"><span>Tiệc Thân Mật</span><span>17h 14.11.2026</span></div>
+      <div class="event-row"><span>Lễ Vu Quy</span><span>9h 15.11.2026</span></div>
       <div class="event-row"><span>Địa điểm</span><span>TDP Hổ Đội 3, thị trấn Diêm Điền, xã Thái Thụy, tỉnh Hưng
           Yên</span></div>
     </div>
@@ -1725,7 +1738,7 @@
     </svg>
   </section>
 
-  <footer>Thanh Minh &amp; Thanh Ngân — 17h 14.11.2026</footer>
+  <footer>Thanh Minh &amp; Thanh Ngân — 14 &amp; 15.11.2026</footer>
 
   <script>
     // curtain-open reveal
@@ -1815,9 +1828,11 @@
 
 
     // countdown
-    const target = new Date('2026-11-14T17:00:00+07:00').getTime();
+    const target1 = new Date('2026-11-14T17:00:00+07:00').getTime();
+    const target2 = new Date('2026-11-15T09:00:00+07:00').getTime();
     function tick() {
       const now = Date.now();
+      const target = now < target1 ? target1 : target2;
       let diff = Math.max(0, target - now);
       const d = Math.floor(diff / 86400000); diff -= d * 86400000;
       const h = Math.floor(diff / 3600000); diff -= h * 3600000;
