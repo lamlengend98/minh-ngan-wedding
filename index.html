@@ -60,11 +60,8 @@
     html {
       scroll-behavior: smooth;
       scroll-padding-top: env(safe-area-inset-top, 0px);
-      height: 100%;
       background-color: var(--bg);
-      overflow-x: hidden;
-      max-width: 100%;
-      width: 100%;
+      overflow-x: clip;
     }
 
     body {
@@ -72,10 +69,10 @@
       color: var(--ink);
       font-family: 'Lora', serif;
       font-weight: 400;
-      overflow-x: hidden;
-      max-width: 100%;
-      width: 100%;
-      min-height: 100%;
+      overflow-x: clip;
+      min-height: 100vh;
+      min-height: 100dvh;
+      -webkit-overflow-scrolling: touch;
     }
 
     .bg-photo {
@@ -108,10 +105,6 @@
 
     body.locked {
       overflow: hidden;
-      height: 100%;
-      height: 100svh;
-      width: 100%;
-      position: fixed;
     }
 
     .curtain {
@@ -1584,7 +1577,7 @@
 
 <body class="locked">
   <!-- Theme song audio & Floating toggle button -->
-  <audio id="bgMusic" src="audio.mp3" loop preload="auto"></audio>
+  <audio id="bgMusic" src="audio.mp3" loop preload="auto" autoplay playsinline></audio>
   <button type="button" id="musicToggle" class="music-toggle" aria-label="Bật/Tắt âm thanh" title="Bật/Tắt âm thanh">
     <!-- Sound wave animation bên trái -->
     <div class="sound-wave" aria-hidden="true">
@@ -1938,6 +1931,8 @@
     function openCurtain() {
       if (curtainOpened) return;
       curtainOpened = true;
+      const audio = document.getElementById('bgMusic');
+      if (audio && audio.paused) audio.play().catch(() => {});
       curtainLeft.classList.add('open');
       curtainRight.classList.add('open');
       coverText.classList.add('open');
@@ -2108,26 +2103,32 @@
       }
 
       function tryPlay() {
-        audio.play().then(() => {
+        if (!audio.paused) {
           updateUi();
-        }).catch(() => {
-          // Autoplay was blocked before user interaction
-        });
-      }
-
-      // Thử phát ngay khi web mở
-      tryPlay();
-
-      // Phát khi chạm mở thiệp hoặc tương tác bất kỳ lần đầu
-      function handleFirstInteract() {
-        if (audio.paused) {
-          audio.play().then(updateUi).catch(() => { });
+          return;
         }
-        window.removeEventListener('click', handleFirstInteract);
-        window.removeEventListener('touchstart', handleFirstInteract);
+        const p = audio.play();
+        if (p !== undefined) {
+          p.then(updateUi).catch(() => {
+            // Autoplay blocked by browser policy until user interaction
+          });
+        }
       }
-      window.addEventListener('click', handleFirstInteract, { once: true });
-      window.addEventListener('touchstart', handleFirstInteract, { once: true });
+
+      // Thử phát ngay lập tức khi mở web và khi audio sẵn sàng
+      tryPlay();
+      window.addEventListener('load', tryPlay, { once: true });
+      audio.addEventListener('canplay', tryPlay, { once: true });
+      document.addEventListener('DOMContentLoaded', tryPlay, { once: true });
+      document.addEventListener('WeixinJSBridgeReady', tryPlay, false);
+
+      // Phát nhạc ngay từ lần chạm/tương tác đầu tiên trên màn hình
+      const unlockEvents = ['touchstart', 'touchend', 'click', 'pointerdown', 'keydown', 'scroll'];
+      function handleFirstInteract() {
+        tryPlay();
+        unlockEvents.forEach(evt => window.removeEventListener(evt, handleFirstInteract, { capture: true }));
+      }
+      unlockEvents.forEach(evt => window.addEventListener(evt, handleFirstInteract, { once: true, capture: true, passive: true }));
 
       // Nút bật/tắt âm thanh
       toggleBtn.addEventListener('click', (e) => {
