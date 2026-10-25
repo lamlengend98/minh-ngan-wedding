@@ -105,6 +105,8 @@
 
     body.locked {
       overflow: hidden;
+      touch-action: none;
+      overscroll-behavior: none;
     }
 
     .curtain {
@@ -120,7 +122,8 @@
       will-change: transform;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      touch-action: manipulation;
+      touch-action: none;
+      overscroll-behavior: none;
     }
 
     /* Lớp ảnh con rộng bằng cả màn hình (100vw) ở CẢ HAI bên, để background-size:cover
@@ -191,7 +194,8 @@
       text-align: center;
       padding: 2rem;
       cursor: pointer;
-      touch-action: manipulation;
+      touch-action: none;
+      overscroll-behavior: none;
       transition: opacity .7s ease;
       user-select: none;
       -webkit-user-select: none;
@@ -1929,9 +1933,21 @@
     const curtainRight = document.getElementById('curtainRight');
     const coverText = document.getElementById('cover-text');
     let curtainOpened = false;
+
+    // Chặn cuộn tuyệt đối khi ở màn chạm mở thiệp
+    function blockScroll(e) {
+      if (!curtainOpened) {
+        e.preventDefault();
+      }
+    }
+    window.addEventListener('touchmove', blockScroll, { passive: false });
+    window.addEventListener('wheel', blockScroll, { passive: false });
+
     function openCurtain() {
       if (curtainOpened) return;
       curtainOpened = true;
+      window.removeEventListener('touchmove', blockScroll);
+      window.removeEventListener('wheel', blockScroll);
       const audio = document.getElementById('bgMusic');
       if (audio && audio.paused) audio.play().catch(() => {});
       curtainLeft.classList.add('open');
