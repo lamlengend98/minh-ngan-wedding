@@ -12,6 +12,14 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
     rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'SVN-Magellin';
+      src: url('SVN-Magellin.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       --bg: #20201c;
       --bg-deep: #171512;
@@ -220,11 +228,11 @@
     }
 
     .intro-names {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(1.68rem, 6.4vw, 2.8rem);
-      font-weight: 500;
-      line-height: 1.25;
+      font-family: 'SVN-Magellin', 'Playfair Display', serif;
+      font-style: normal;
+      font-size: clamp(2rem, 7.5vw, 3.2rem);
+      font-weight: normal;
+      line-height: 1.3;
       white-space: nowrap;
     }
 
@@ -419,14 +427,15 @@
       color: var(--sage);
       font-family: 'Playfair Display', serif;
       font-style: italic;
+      margin-bottom: 2rem;
     }
 
     .names {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.6rem, 9vw, 4.2rem);
-      line-height: 1.05;
-      margin: .6rem 0;
-      font-weight: 600;
+      font-family: 'SVN-Magellin', 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 10vw, 4.5rem);
+      line-height: 1.25;
+      margin: .8rem 0;
+      font-weight: normal;
     }
 
     .amp {
@@ -438,7 +447,7 @@
     }
 
     .hero-date {
-      margin-top: 1rem;
+      margin-top: 2.6rem;
       font-size: 1.05rem;
       color: var(--ink-soft);
       letter-spacing: .04em;
@@ -1411,10 +1420,168 @@
       color: #1E1A16;
       font-weight: 600;
     }
+    /* Music Floating Toggle Button with Sound Wave */
+    .music-toggle {
+      position: fixed;
+      top: max(16px, env(safe-area-inset-top, 16px));
+      right: max(16px, env(safe-area-inset-right, 16px));
+      z-index: 90;
+      height: 40px;
+      padding: 0 12px 0 14px;
+      border-radius: 25px;
+      background: rgba(30, 26, 22, 0.78);
+      border: 1px solid rgba(214, 184, 114, 0.45);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .music-toggle:hover {
+      transform: scale(1.05);
+      border-color: var(--gold);
+      background: rgba(30, 26, 22, 0.92);
+    }
+
+    /* Sound Wave Bars */
+    .sound-wave {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 18px;
+    }
+
+    .sound-wave .bar {
+      width: 2.5px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: height 0.3s ease, opacity 0.3s ease;
+      opacity: 0.5;
+    }
+
+    /* Khi đang phát: hiệu ứng nhảy sóng âm */
+    .music-toggle.playing .sound-wave .bar {
+      opacity: 0.95;
+      animation: soundWaveDance 1.2s ease-in-out infinite alternate;
+    }
+
+    .music-toggle.playing .sound-wave .bar-1 {
+      animation-delay: 0.1s;
+      animation-duration: 1.1s;
+    }
+
+    .music-toggle.playing .sound-wave .bar-2 {
+      animation-delay: 0.35s;
+      animation-duration: 0.85s;
+    }
+
+    .music-toggle.playing .sound-wave .bar-3 {
+      animation-delay: 0.15s;
+      animation-duration: 1.3s;
+    }
+
+    .music-toggle.playing .sound-wave .bar-4 {
+      animation-delay: 0.45s;
+      animation-duration: 0.95s;
+    }
+
+    @keyframes soundWaveDance {
+      0% {
+        height: 4px;
+      }
+      50% {
+        height: 16px;
+      }
+      100% {
+        height: 7px;
+      }
+    }
+
+    .music-icon-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .music-toggle svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s ease;
+    }
+
+    .music-toggle .icon-music-on {
+      display: none;
+    }
+
+    .music-toggle .icon-music-off {
+      display: block;
+      opacity: 0.75;
+    }
+
+    .music-toggle.playing {
+      border-color: rgba(214, 184, 114, 0.75);
+      color: var(--gold);
+      animation: musicPulse 2.6s infinite;
+    }
+
+    .music-toggle.playing .icon-music-on {
+      display: block;
+    }
+
+    .music-toggle.playing .icon-music-off {
+      display: none;
+    }
+
+    @keyframes musicPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(214, 184, 114, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 8px rgba(214, 184, 114, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(214, 184, 114, 0);
+      }
+    }
   </style>
 </head>
 
 <body class="locked">
+  <!-- Theme song audio & Floating toggle button -->
+  <audio id="bgMusic" src="audio.mp3" loop preload="auto"></audio>
+  <button type="button" id="musicToggle" class="music-toggle" aria-label="Bật/Tắt âm thanh" title="Bật/Tắt âm thanh">
+    <!-- Sound wave animation bên trái -->
+    <div class="sound-wave" aria-hidden="true">
+      <span class="bar bar-1"></span>
+      <span class="bar bar-2"></span>
+      <span class="bar bar-3"></span>
+      <span class="bar bar-4"></span>
+    </div>
+    <!-- Icon loa bên phải -->
+    <div class="music-icon-wrap">
+      <!-- Icon loa đang phát -->
+      <svg class="icon-music-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      </svg>
+      <!-- Icon loa tắt -->
+      <svg class="icon-music-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <line x1="23" y1="9" x2="17" y2="15"></line>
+        <line x1="17" y1="9" x2="23" y2="15"></line>
+      </svg>
+    </div>
+  </button>
+
   <div class="curtain curtain-left" id="curtainLeft">
     <div class="curtain-photo"></div>
     <svg class="corner-orn tl" viewBox="0 0 90 90">
@@ -1733,7 +1900,7 @@
     </svg>
   </section>
 
-  <footer>Thanh Minh &amp; Thanh Ngân — 17h 14.11.2026</footer>
+
 
   <script>
     // curtain-open reveal
@@ -1892,6 +2059,59 @@
         setTimeout(() => { btn.textContent = 'Sao chép STK'; }, 2000);
       }
     }
+
+    // Theme Song & Audio Control
+    (function () {
+      const audio = document.getElementById('bgMusic');
+      const toggleBtn = document.getElementById('musicToggle');
+      if (!audio || !toggleBtn) return;
+
+      function updateUi() {
+        if (!audio.paused) {
+          toggleBtn.classList.add('playing');
+          toggleBtn.setAttribute('aria-label', 'Tắt âm thanh');
+        } else {
+          toggleBtn.classList.remove('playing');
+          toggleBtn.setAttribute('aria-label', 'Bật âm thanh');
+        }
+      }
+
+      function tryPlay() {
+        audio.play().then(() => {
+          updateUi();
+        }).catch(() => {
+          // Autoplay was blocked before user interaction
+        });
+      }
+
+      // Thử phát ngay khi web mở
+      tryPlay();
+
+      // Phát khi chạm mở thiệp hoặc tương tác bất kỳ lần đầu
+      function handleFirstInteract() {
+        if (audio.paused) {
+          audio.play().then(updateUi).catch(() => {});
+        }
+        window.removeEventListener('click', handleFirstInteract);
+        window.removeEventListener('touchstart', handleFirstInteract);
+      }
+      window.addEventListener('click', handleFirstInteract, { once: true });
+      window.addEventListener('touchstart', handleFirstInteract, { once: true });
+
+      // Nút bật/tắt âm thanh
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (audio.paused) {
+          audio.play().then(updateUi);
+        } else {
+          audio.pause();
+          updateUi();
+        }
+      });
+
+      audio.addEventListener('play', updateUi);
+      audio.addEventListener('pause', updateUi);
+    })();
   </script>
 </body>
 
